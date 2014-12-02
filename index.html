@@ -39,7 +39,7 @@
 		.point .content {
 			position: absolute;
 			top: 50%;
-			font-family: Open Sans;
+			font-family: Open Sans, Helvetica Neue;
 			width: 130px;
 			color: white;
 			background: rgba(0, 0, 0, 0.5);
@@ -51,31 +51,15 @@
 	</style>
 </head>
 <body>
-	
-	<div class="container">
-		<span class="point" data-x="150" data-y="100"></span>
-		<span class="point" data-x="250" data-y="200"></span>
-		<span class="point" data-x="350" data-y="300"></span>
-		<span class="point" data-x="450" data-y="400"></span>
-	</div>
 
-<!-- 	<div class="container">
-		<span class="point left" data-x="190" data-y="70" data-content="This is how we roll">
-			<span class="line"></span>
-			<span class="content">This is how we roll</span>
-		</span>
-		<span class="point right" data-x="620" data-y="60" data-content="This is some nice content">
-			<span class="line"></span>
-			<span class="content">This is some nice content as well</span>
-		</span>
-		<span class="point" data-x="490" data-y="120" data-content="This will have success">
-			<span class="line"></span>
-			<span class="content">This is the number of meters climbed</span>
-		</span>
-		<span class="point right" data-x="600" data-y="310" data-content="I don't know you"><span class="line"></span></span>
-		<span class="point right" data-x="90" data-y="430" data-content="This has to be the coolest"><span class="line"></span></span>
-		<span class="point right" data-x="100" data-y="220" data-contetn="Well done sir"><span class="line"></span></span>
-	</div> -->
+	<div class="container">
+		<span class="point left" data-x="190" data-y="70" data-content="This is how we roll"></span>
+		<span class="point right" data-x="620" data-y="60" data-content="This is some nice content"></span>
+		<span class="point" data-x="490" data-y="120" data-content="This will have success"></span>
+		<span class="point" data-x="600" data-y="310" data-content="I don't know you"></span>
+		<span class="point" data-x="90" data-y="430" data-content="This has to be the coolest"></span>
+		<span class="point" data-x="100" data-y="220" data-content="Well done sir"></span>
+	</div>
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script>
@@ -109,10 +93,15 @@
 					var point = $(this),
 						positionX = parseInt(point.data("x")) - options.pointRadius,
 						positionY = parseInt(point.data("y")) - options.pointRadius,
+						htmlContent = point.data("content"),
 						direction = point.hasClass('left') ? 'left' : 'right',
-						line = point.find('.line'),
-						content = point.find('.content'),
+						// TODO: could be better
+						line = $(document.createElement("span")).addClass("line"),
+						content = $(document.createElement("span")).addClass("content"),
 						lineWidth = 0;
+
+					content.html( htmlContent );
+					point.append(line, content);
 
 					if( direction === "left" ) {
 						lineWidth = positionX + options.margin.left;
