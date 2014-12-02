@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pointerest</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html, body {
+			height: 100%;
+		}
+		.container {
+			width: 800px;
+			height: 500px;
+			background: #ccc url('https://d13yacurqjgara.cloudfront.net/users/78637/screenshots/1151546/attachments/148882/Mountaineer_Bigger.jpg');
+			background-size: cover;
+			margin: auto;
+			position: relative;
+		}
+		.point {
+			position: absolute;
+			cursor: pointer;
+		}
+		/* default behaviour is text on the right */
+		.point .line {
+			display: block;
+			background: red;
+			width: 0;
+			position: absolute;
+			top: 50%;
+			left: 100%;
+		}
+		.point.left .line {
+			left: auto;
+			right: 100%;
+		}
+
+		.point .content {
+			position: absolute;
+			top: 50%;
+			font-family: Open Sans;
+			width: 130px;
+			color: white;
+			background: rgba(0, 0, 0, 0.5);
+			font-size: 12px;
+			padding: 10px;
+			border-radius: 5px;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="container">
+		<span class="point" data-x="150" data-y="100"></span>
+		<span class="point" data-x="250" data-y="200"></span>
+		<span class="point" data-x="350" data-y="300"></span>
+		<span class="point" data-x="450" data-y="400"></span>
+	</div>
+
+<!-- 	<div class="container">
+		<span class="point left" data-x="190" data-y="70" data-content="This is how we roll">
+			<span class="line"></span>
+			<span class="content">This is how we roll</span>
+		</span>
+		<span class="point right" data-x="620" data-y="60" data-content="This is some nice content">
+			<span class="line"></span>
+			<span class="content">This is some nice content as well</span>
+		</span>
+		<span class="point" data-x="490" data-y="120" data-content="This will have success">
+			<span class="line"></span>
+			<span class="content">This is the number of meters climbed</span>
+		</span>
+		<span class="point right" data-x="600" data-y="310" data-content="I don't know you"><span class="line"></span></span>
+		<span class="point right" data-x="90" data-y="430" data-content="This has to be the coolest"><span class="line"></span></span>
+		<span class="point right" data-x="100" data-y="220" data-contetn="Well done sir"><span class="line"></span></span>
+	</div> -->
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+		(function(){
+
+			$.fn.pointerest = function(opts) {
+
+				var options = {
+					colorPalette: ['red', 'blue', 'orange', 'brown', 'yellow', 'green'],
+					animationType: 'fadeIn',
+					animationSpeed: 300,
+					pointRadius: 10,
+					lineHeight: 2,
+					margin: {right: 20, left: 20}, // margins on the side
+					borderRadius: '50%',
+					opacity: 0.8,
+					textMargin: 20
+				};
+
+				var self = this,
+					containerWidth = self.innerWidth(),
+					points = self.find('.point');
+
+				// Setup styling for the elements
+				self.css({
+					'position': 'relative'
+				});
+
+				points.each(function(index, point){
+
+					var point = $(this),
+						positionX = parseInt(point.data("x")) - options.pointRadius,
+						positionY = parseInt(point.data("y")) - options.pointRadius,
+						direction = point.hasClass('left') ? 'left' : 'right',
+						line = point.find('.line'),
+						content = point.find('.content'),
+						lineWidth = 0;
+
+					if( direction === "left" ) {
+						lineWidth = positionX + options.margin.left;
+					}
+					else {
+						lineWidth = containerWidth - positionX - (options.pointRadius * 2) + options.margin.right;
+					}
+
+					point.css({
+						'background': options.colorPalette[index],
+						'width': options.pointRadius * 2,
+						'height': options.pointRadius * 2,
+						'borderRadius': options.borderRadius,
+						'opacity': options.opacity,
+						'top': positionY,
+						'left': positionX,
+					});
+
+					line.css({
+						'background': options.colorPalette[index],
+						'height': options.lineHeight,
+						'margin-top': - options.lineHeight / 2
+					});
+
+					point.on('mouseenter', function(){
+						line.stop().animate(
+								{width: lineWidth},
+								options.animationSpeed,
+								function() {
+									content.fadeIn(options.animationSpeed);
+								}
+							);
+					}).on('mouseleave', function(){
+						content.fadeOut();
+						line.stop().animate(
+								{width: 0},
+								options.animationSpeed
+						);
+					});
+
+					var contentX = (direction === "left") ? (- lineWidth - content.outerWidth()) : lineWidth + options.pointRadius * 2;
+					content.css({
+						'left': contentX,
+						'margin-top': -content.outerHeight() / 2
+					});
+				});
+
+			};
+
+			$(".container").pointerest();
+
+		})();
+	</script>
+</body>
+</html>
