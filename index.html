@@ -10,148 +10,345 @@
 		html, body {
 			height: 100%;
 		}
-		.container {
-			width: 800px;
-			height: 500px;
-			background: #ccc url('https://d13yacurqjgara.cloudfront.net/users/78637/screenshots/1151546/attachments/148882/Mountaineer_Bigger.jpg');
-			background-size: cover;
-			margin: auto;
-			position: relative;
+		body {
+			background: url('./assets/demo.jpg') no-repeat;
 		}
-		.point {
+		.container {
+			width: 1028px;
+			height: 975px;
+			background: url('./assets/dashboard.jpg') no-repeat;
+			margin: 60px 0 0 185px;
+		}
+		.pointerest .point {
 			position: absolute;
 			cursor: pointer;
+			border-radius: 50%;
 		}
-		/* default behaviour is text on the right */
-		.point .line {
+		
+		.pointerest .point .line {
 			display: block;
-			background: red;
 			width: 0;
 			position: absolute;
 			top: 50%;
-			left: 100%;
 		}
-		.point.left .line {
-			left: auto;
+		.pointerest .point.left .line {
 			right: 100%;
 		}
+		.pointerest .point.right .line {
+			left: 100%;
+		}
 
-		.point .content {
+		.pointerest .point .content {
 			position: absolute;
 			top: 50%;
 			font-family: Open Sans, Helvetica Neue;
-			width: 130px;
+			width: 120px;
 			color: white;
-			background: rgba(0, 0, 0, 0.5);
-			font-size: 12px;
-			padding: 10px;
-			border-radius: 5px;
+			font-size: 14px;
 			display: none;
+			padding: 10px 15px;
+			border-radius: 5px;
 		}
 	</style>
 </head>
 <body>
 
 	<div class="container">
-		<span class="point left" data-x="190" data-y="70" data-content="This is how we roll"></span>
-		<span class="point right" data-x="620" data-y="60" data-content="This is some nice content"></span>
-		<span class="point" data-x="490" data-y="120" data-content="This will have success"></span>
-		<span class="point" data-x="600" data-y="310" data-content="I don't know you"></span>
-		<span class="point" data-x="90" data-y="430" data-content="This has to be the coolest"></span>
-		<span class="point" data-x="100" data-y="220" data-content="Well done sir"></span>
+		<span class="point left" data-x="280" data-y="200" data-color="red" data-content="Keep your house warm and your wallet full"></span>
+		<span class="point" data-x="550" data-y="200" data-color="#888" data-content="A better understanding of water consumption"></span>
+		<span class="point" data-x="820" data-y="200" data-content="Save energy and money"></span>
+		<span class="point" data-x="900" data-y="910" data-content="Pay whenever you are ready"></span>
+		<span class="point" data-x="750" data-y="350" data-content="Shows you if you have saved or should do better"></span>
+		<span class="point" data-x="850" data-y="530" data-content="Hourly, daily, and monthly reporting"></span>
 	</div>
-	
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script>
 		(function(){
 
-			$.fn.pointerest = function(opts) {
+			var Pointerest = function(wrapper, arg1, arg2) {
+				this.wrapper = wrapper;
 
-				var options = {
-					colorPalette: ['red', 'blue', 'orange', 'brown', 'yellow', 'green'],
-					animationType: 'fadeIn',
-					animationSpeed: 300,
-					pointRadius: 10,
-					lineHeight: 2,
-					margin: {right: 20, left: 20}, // margins on the side
-					borderRadius: '50%',
-					opacity: 0.8,
-					textMargin: 20
-				};
+				var arg1Type = Object.prototype.toString.call( arg1 ),
+					arg2Type = Object.prototype.toString.call( arg2 );
 
-				var self = this,
-					containerWidth = self.innerWidth(),
-					points = self.find('.point');
+				// first argument are options
+				if( arg1Type === "[object Object]" ) {
+					// extend user options
+					jQuery.extend(this.options, arg1);
+				}
+				// second argument are options
+				else if( arg2Type === "[object Object]" ) {
+					jQuery.extend(this.options, arg2);	
+				}
 
-				// Setup styling for the elements
-				self.css({
-					'position': 'relative'
-				});
+				if( arg1Type === "[object Array]" ) {
+					this.pointNodes = arg1;
+				}
 
-				points.each(function(index, point){
-
-					var point = $(this),
-						positionX = parseInt(point.data("x")) - options.pointRadius,
-						positionY = parseInt(point.data("y")) - options.pointRadius,
-						htmlContent = point.data("content"),
-						direction = point.hasClass('left') ? 'left' : 'right',
-						// TODO: could be better
-						line = $(document.createElement("span")).addClass("line"),
-						content = $(document.createElement("span")).addClass("content"),
-						lineWidth = 0;
-
-					content.html( htmlContent );
-					point.append(line, content);
-
-					if( direction === "left" ) {
-						lineWidth = positionX + options.margin.left;
-					}
-					else {
-						lineWidth = containerWidth - positionX - (options.pointRadius * 2) + options.margin.right;
-					}
-
-					point.css({
-						'background': options.colorPalette[index],
-						'width': options.pointRadius * 2,
-						'height': options.pointRadius * 2,
-						'borderRadius': options.borderRadius,
-						'opacity': options.opacity,
-						'top': positionY,
-						'left': positionX,
-					});
-
-					line.css({
-						'background': options.colorPalette[index],
-						'height': options.lineHeight,
-						'margin-top': - options.lineHeight / 2
-					});
-
-					point.on('mouseenter', function(){
-						line.stop().animate(
-								{width: lineWidth},
-								options.animationSpeed,
-								function() {
-									content.fadeIn(options.animationSpeed);
-								}
-							);
-					}).on('mouseleave', function(){
-						content.fadeOut();
-						line.stop().animate(
-								{width: 0},
-								options.animationSpeed
-						);
-					});
-
-					var contentX = (direction === "left") ? (- lineWidth - content.outerWidth()) : lineWidth + options.pointRadius * 2;
-					content.css({
-						'left': contentX,
-						'margin-top': -content.outerHeight() / 2
-					});
-				});
-
+				// initialize elements
+				this.init();
 			};
 
-			$(".container").pointerest();
+			Pointerest.prototype = {
+				options: {
+					animationSpeed: 300,
+					radius: 10,
+					color: "blue",
+					lineHeight: 2,
+					direction: null,
+					margin: {
+						top: 0,
+						right: 20,
+						bottom: 0,
+						left: 20
+					}
+				},
+				init: function() {
+					this.setupWrapper();
+					this.setupNodes();
+				},
+				setupWrapper: function() {
+
+					this.wrapper.addClass("pointerest");
+
+					this.wrapper.css({
+						'position': 'relative'
+					});
+					this.wrapperWidth = this.wrapper.innerWidth();
+					this.wrapperHeight = this.wrapper.innerHeight();
+				},
+				setupNodes: function() {
+					var _this = this;
+
+					// user has given the points as array
+					if( this.pointNodes.length ) {
+						this.createNodes();
+					}
+					this.pointNodes = [];
+
+					this.wrapper.find('.point').each(function(node){
+
+						var element = $(this),
+							x = element.data("x") ? element.data("x") : 0,
+							y = element.data("y") ? element.data("y") : 0,
+							color = element.data("color") ? element.data("color") : _this.options.color,
+							radius = element.data("radius") ? element.data("radius") * 2 : _this.options.radius * 2,
+							direction = element.data("direction");
+
+						var node = {
+							element: element,
+							x: x,
+							y: y,
+							radius: radius,
+							color: color,
+							direction: direction
+						};
+
+						node.direction = _this.getDirection(node);
+
+						_this.pointNodes.push(node);
+
+					});
+
+					this.positionNodes();
+					this.createChildrenElements();
+					this.bindEvents();
+
+				},
+				positionNodes: function() {
+
+					this.pointNodes.forEach(function(node){
+
+						node.element.addClass(node.direction);
+						node.element.css({
+							'background': node.color,
+							'width': node.radius,
+							'height': node.radius,
+							'top': node.y,
+							'left': node.x,
+						});
+
+					});
+
+				},
+				getDirection: function(node) {
+
+					// element direction preceeds all
+					if( node.direction ) {
+						return node.direction;
+					}
+					else if( node.element.hasClass("left") ) {
+						return "left";
+					}
+					else if( node.element.hasClass("right") ) {
+						return "right";
+					}
+					// user sets direction for all elements
+					else if( this.options.direction ) {
+						return this.options.direction;
+					}
+					// base it on the closest end
+					else {
+						return (node.x <= this.wrapperWidth / 2) ? 'left' : 'right';
+					}
+				},
+				getLineWidth: function(node) {
+
+					var width = 0;
+
+					switch( node.direction ) {
+						case "left":
+							width = node.x + this.options.margin.left;
+							break;
+						case "right":
+							width = this.wrapperWidth - node.x - this.options.radius * 2 + this.options.margin.right;
+							break;
+					}
+
+					return width;
+				},
+				getContentPosition: function(node) {
+
+					var x = 0;
+
+					switch( node.direction ) {
+						case "left":
+							x = - this.getLineWidth(node) - node.content.outerWidth();
+							break;
+						case "right":
+							x = this.getLineWidth(node) + this.options.margin.right;
+							break;
+					}
+
+					return {
+							'margin-top': - node.content.outerHeight() / 2,
+							'left': x
+						};
+				},
+				createNodes: function() {
+					this.pointNodes.forEach(function(node){
+
+						var htmlElement = $("<span>", {"class": "point"});
+						
+						htmlElement.data("x", node.x);
+						htmlElement.data("y", node.y);
+						htmlElement.data("content", node.content);
+						htmlElement.data("color", node.color);
+						htmlElement.data("radius", node.radius);
+						htmlElement.data("direction", node.direction);
+
+						this.wrapper.append(htmlElement);
+
+					}.bind(this));
+				},
+				createChildrenElements: function() {
+
+					var _this = this;
+
+					this.pointNodes.forEach(function(node, index){
+
+						var line = $("<span>", {"class": "line"}),
+							content = $("<span>", {"class": "content"});
+
+						// Create the line for the point
+						node.element.append( line );
+						node.line = line;
+						line.css({
+							'height': _this.options.lineHeight,
+							'margin-top': - _this.options.lineHeight / 2,
+							'background': node.color
+						});
+
+						// Create the content for the node
+						node.element.append( content );
+						node.content = content;
+						content.html( node.element.data("content") );
+
+						// The content takes the point's color
+						content.css({
+							'background-color': node.color
+						});
+
+						// positioning of the content
+						content.css( _this.getContentPosition(node) );
+
+					});
+
+				},
+				bindEvents: function() {
+
+					var _this = this;
+
+					this.pointNodes.forEach(function(node){
+
+						var lineWidth = _this.getLineWidth(node);
+
+						node.element.on("mouseenter", function(){
+
+							// Avoid being under another point
+							node.element.css({
+								'z-index': _this.pointNodes.length + 1,
+							});
+
+							// Show the line and after that the content
+							node.line.stop().animate({
+								'width': lineWidth,
+							}, _this.options.animationSpeed, function(){
+								node.content.stop().fadeIn(_this.options.animationSpeed);
+							});
+
+						}).on("mouseleave", function(){
+							
+							// Hide the content first and then the line
+							node.content.stop().fadeOut(_this.options.animationSpeed / 2, function(){
+								node.line.stop().animate({
+									'width': 0
+								}, _this.options.animationSpeed / 2, function(){
+									// Set the default z-index back
+									node.element.css({
+										'z-index': ''
+									});
+								});
+							});
+						});
+
+					});
+
+				},
+				destroy: function() {
+					// TODO: better removal of elements
+					this.wrapper.find(".point").remove();
+					this.wrapper.css({
+						'position': ''
+					});
+					this.wrapper.removeClass("pointerest");
+				}
+			};
+
+			// Register plugin for jQuery
+			$.fn.Pointerest = function(arg1, arg2) {
+				return new Pointerest(this, arg1, arg2);
+			};
+
+			var newNodes = [
+				{
+					color: "red",
+					x: 200,
+					y: 100,
+					content: "This is the content"
+				},
+				{
+					color: "green",
+					content: "Here we are doing something",
+					x: 300,
+					direction: "right"
+				}
+			];
+			$(".container").Pointerest(newNodes, {
+				color: "#333",
+				direction: "right"
+			});
 
 		})();
 	</script>
