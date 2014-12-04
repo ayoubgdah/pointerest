@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pointerest</title>
+	<link rel="stylesheet" href="pointerest.css">
+	
+	<!-- Font for the demo only -->
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+	<!-- The styling here is only for the demo, use your own based on your image-->
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background: #7D8288;
+			font-family: Lato;
+		}
+		.container {
+			width: 1217px;
+			height: 1200px;
+			margin: auto;
+			background: transparent url('https://d13yacurqjgara.cloudfront.net/users/141038/screenshots/1175688/attachments/154103/Accentpixels.png') no-repeat;
+		}
+	</style>
+
+	<div class="container">
+		<span class="point" data-x="280" data-y="200" data-content="Keep your house warm and your wallet full"></span>
+		<span class="point" data-x="550" data-y="200" data-content="A better understanding of water consumption"></span>
+		<span class="point" data-x="820" data-y="200" data-content="Save energy and money"></span>
+		<span class="point" data-x="900" data-y="910" data-content="Pay whenever you are ready"></span>
+		<span class="point" data-x="750" data-y="350" data-content="Shows you if you have saved or should do better"></span>
+		<span class="point" data-x="850" data-y="530" data-content="Hourly, daily, and monthly reporting"></span>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="pointerest.js"></script>
+	<script>
+		$(".container").Pointerest({
+			color: "#4AA3DF"
+		});
+	</script>
+</body>
+</html>
