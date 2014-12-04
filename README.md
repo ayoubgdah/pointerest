@@ -1,4 +1,4 @@
-# Pointerest
+# Pointerest v0.1
 
 Show the key features of your product using elegant points.
 
