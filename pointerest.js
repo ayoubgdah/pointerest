@@ -30,13 +30,13 @@
 		options: {
 			radius: 10,
 			color: "#333",
-			lineHeight: 2,
+			lineThikness: 2,
 			direction: null,
 			margin: {
-				top: 0,
-				right: 20,
-				bottom: 0,
-				left: 20
+				top: 10,
+				right: 10,
+				bottom: 10,
+				left: 10
 			},
 			animationSpeed: 300
 		},
@@ -113,13 +113,6 @@
 			if( node.direction ) {
 				return node.direction;
 			}
-			// as a class
-			else if( node.element.hasClass("left") ) {
-				return "left";
-			}
-			else if( node.element.hasClass("right") ) {
-				return "right";
-			}
 			// as an global option
 			else if( this.options.direction ) {
 				return this.options.direction;
@@ -132,35 +125,51 @@
 		getLineLength: function(node) {
 
 			// TODO: in case it is %
-			var width = 0;
+			var length = 0;
 
 			switch( node.direction ) {
 				case "left":
-					width = node.x + this.options.margin.left;
+					length = node.x + this.options.margin.left;
 					break;
 				case "right":
-					width = this.wrapperWidth - node.x - this.options.radius * 2 + this.options.margin.right;
+					length = this.wrapperWidth - node.x - this.options.radius * 2 + this.options.margin.right;
+					break;
+				case "top":
+					length =  node.y + this.options.margin.top;
+					break;
+				case "bottom":
+					length = this.wrapperHeight - node.y - this.options.radius * 2 + this.options.margin.bottom;
 					break;
 			}
 
-			return width;
+			return length;
 		},
 		getContentPosition: function(node) {
 
-			var x = 0;
+			var x = y = 0;
 
 			switch( node.direction ) {
 				case "left":
 					x = - this.getLineLength(node) - node.content.outerWidth();
+					y = - node.content.outerHeight() / 2 + this.options.radius;
 					break;
 				case "right":
-					x = this.getLineLength(node) + this.options.margin.right;
+					x = this.getLineLength(node) + this.options.radius * 2;
+					y = - node.content.outerHeight() / 2 + this.options.radius;
 					break;
+				case "top":
+					y = - this.getLineLength(node) - node.content.outerHeight();
+					x = - node.content.outerWidth() / 2 + this.options.radius;
+				break;
+				case "bottom":
+					y = this.getLineLength(node) + this.options.radius * 2;
+					x = - node.content.outerWidth() / 2 + this.options.radius;
+				break;
 			}
 
 			return {
-					'margin-top': - node.content.outerHeight() / 2,
-					'left': x
+					'left': x,
+					'top': y
 				};
 		},
 		createNodes: function() {
@@ -192,8 +201,6 @@
 				node.element.append( line );
 				node.line = line;
 				line.css({
-					'height': _this.options.lineHeight,
-					'margin-top': - _this.options.lineHeight / 2,
 					'background': node.color
 				});
 
@@ -229,29 +236,66 @@
 					});
 
 					// Show the line and after that the content
-					node.line.stop().animate({
-						'width': lineWidth,
-					}, _this.options.animationSpeed, function(){
-						node.content.stop().fadeIn(_this.options.animationSpeed);
-					});
+					_this.animateLine(node, true);
+					_this.animateContent(node, true);
+
 
 				}).on("mouseleave", function(){
 					
-					// Hide the content first and then the line
-					node.content.stop().fadeOut(_this.options.animationSpeed / 2, function(){
-						node.line.stop().animate({
-							'width': 0
-						}, _this.options.animationSpeed / 2, function(){
-							// Set the default z-index back
-							node.element.css({
-								'z-index': ''
-							});
-						});
+					_this.animateLine(node, false);
+					_this.animateContent(node, false);
+
+					node.element.css({
+						'z-index': ''
 					});
+
 				});
 
 			});
 
+		},
+		animateLine: function (node, expand) {
+			var _this = this,
+				length = 0,
+				animation = null;
+
+			if( expand ) {
+				length = _this.getLineLength(node);
+			}
+
+			switch(node.direction) {
+				case "left":
+				case "right":
+
+					node.line.css({
+						'height': _this.options.lineThikness,
+						'margin-top': - _this.options.lineThikness / 2
+					});
+					animation = { 'width': length };
+					break;
+
+				case "top":
+				case "bottom":
+
+					node.line.css({
+						'width': _this.options.lineThikness,
+						'margin-left': - _this.options.lineThikness / 2
+					});
+					animation = { 'height': length };
+					break;
+			}
+
+			node.line.stop().animate(animation, this.options.animationSpeed);
+
+		},
+		animateContent: function (node, show) {
+
+			if( show ) {
+				node.content.stop().fadeIn(this.options.animationSpeed);
+			}
+			else {
+				node.content.stop().fadeOut(this.options.animationSpeed);
+			}
 		},
 		destroy: function() {
 			// TODO: better removal of elements
