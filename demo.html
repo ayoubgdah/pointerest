@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Pointerest</title>
+	<!-- Include this file in your project -->
 	<link rel="stylesheet" href="pointerest.css">
 	
 	<!-- Font for the demo only -->
@@ -35,10 +36,17 @@
 		<span class="point" data-x="750" data-y="350" data-content="Shows you if you have saved or should do better"></span>
 		<span class="point" data-x="850" data-y="530" data-content="Hourly, daily, and monthly reporting"></span>
 	</div>
-
+	
+	<!-- Load jQuery -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!-- Include the plugin script -->
 	<script src="pointerest.js"></script>
+
+	<!-- Fire up the plugin -->
 	<script>
+		// If you don't need options use this instead
+		// $(".container").Pointerest();
+		
 		$(".container").Pointerest({
 			color: "#4AA3DF"
 		});
