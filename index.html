@@ -17,7 +17,7 @@
 			padding: 0;
 		}
 		body {
-			background: #7D8288;
+			background: #D2D7D3;
 			font-family: Lato;
 			color: #333;
 		}
@@ -30,19 +30,24 @@
 			margin: auto;
 			background: transparent url('dashboard.jpg') no-repeat;
 		}
-		.small, .small {
+		.credits {
 			font-size: 12px;
 			text-align: center;
 			margin-top: 10px;
 		}
-		h1, h3 {
+		h1, p {
 			text-align: center;
 			margin-bottom: 20px;
 		}
+		h1 small {
+			display: block;
+			font-size: .6em;
+			margin-top: 5px;
+		}
 	</style>
 
-	<h1>Pointerest jQuery Plugin Demo</h1>
-	<h3><a href="https://github.com/ayoubgdah/pointerest#pointerest">Documentation</a></h3>
+	<h1>Pointerest jQuery Plugin Demo <small><a href="https://github.com/ayoubgdah/pointerest#pointerest">Documentation</a></small></h1>
+	<p>Hover the points to see the features</p>
 
 	<div class="container">
 		<span class="point" data-x="980" data-y="50"  data-color="#565962" data-content="Add a new dashboard page"></span>
@@ -55,7 +60,7 @@
 		<span class="point" data-x="900" data-y="900" data-color="#565962" data-content="Pay whenever you are ready"></span>
 	</div>
 
-	<p class="small"><a href="https://dribbble.com/shots/1051180-Bills-Bills-Bills?list=searches&tag=dashboard&offset=5">Image credit</a></p>
+	<p class="credits"><a href="https://dribbble.com/shots/1051180-Bills-Bills-Bills?list=searches&tag=dashboard&offset=5">Image credits</a></p>
 	
 	<!-- Load jQuery -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
