@@ -1,0 +1,29 @@
+.pointerest .point {
+	position: absolute;
+	cursor: pointer;
+	border-radius: 50%;
+}
+
+.pointerest .point .line {
+	display: block;
+	width: 0;
+	position: absolute;
+	top: 50%;
+}
+.pointerest .point.left .line {
+	right: 100%;
+}
+.pointerest .point.right .line {
+	left: 100%;
+}
+
+.pointerest .point .content {
+	position: absolute;
+	top: 50%;
+	width: 120px;
+	color: white;
+	font-size: 14px;
+	display: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+}
