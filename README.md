@@ -5,7 +5,7 @@ Show the key features of your product using elegant points.
 ---
 
 #### Version
-0.2
+0.3
 
 #### Demo example
 http://ayoubgdah.github.io/pointerest/
@@ -37,7 +37,7 @@ The basic setup needs only 3 attributes: *data-x*, *data-y* and *data-content*
 		<span class="point" data-x="850" data-y="530" data-content="Hourly, daily, and monthly reporting"></span>
 	</div>
 ```
-Below are the options you can have
+Below are the options you can have:
 
 Attribute | Description
 --- | ---
@@ -80,7 +80,7 @@ $(".container").Pointerest(elements, options);
 Option | Default | Description
 --- | --- | ---
 radius | 10 | The radius of the point in px
-color | #333 | The color of the points, could be any css valid color (i.e #ffff, rbg(255, 255, 255), rgba ...). Applied to points which don't have individual color.
+color | #333 | The color of the points, could be any css valid color (i.e #ffff, rbg(255, 255, 255) ...). Applied to points (plus line and content) which don't have individual color.
 lineThickness | 2 | The thickness of the line that goes from the point to the text in px.
 direction | null | Which direction the line goes to. Applied to points which don't have individual direction. If nothing is provided then it is based on the nearest left or right side.
 margin | 20 | The gap between the text and the container in px.
