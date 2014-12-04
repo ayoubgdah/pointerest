@@ -237,17 +237,18 @@
 
 					// Show the line and after that the content
 					_this.animateLine(node, true);
-					node.content.stop().fadeIn(_this.options.animationSpeed);
+					_this.animateContent(node, true);
+
 
 				}).on("mouseleave", function(){
 					
 					_this.animateLine(node, false);
+					_this.animateContent(node, false);
+
 					node.element.css({
 						'z-index': ''
 					});
 
-					// Hide the content first and then the line
-					node.content.stop().fadeOut();
 				});
 
 			});
@@ -268,7 +269,6 @@
 
 					node.line.css({
 						'height': _this.options.lineThikness,
-						'width': 0,
 						'margin-top': - _this.options.lineThikness / 2
 					});
 					animation = { 'width': length };
@@ -279,15 +279,23 @@
 
 					node.line.css({
 						'width': _this.options.lineThikness,
-						'height': 0,
 						'margin-left': - _this.options.lineThikness / 2
 					});
 					animation = { 'height': length };
 					break;
 			}
 
-			node.line.stop().animate(animation);
+			node.line.stop().animate(animation, this.options.animationSpeed);
 
+		},
+		animateContent: function (node, show) {
+
+			if( show ) {
+				node.content.stop().fadeIn(this.options.animationSpeed);
+			}
+			else {
+				node.content.stop().fadeOut(this.options.animationSpeed);
+			}
 		},
 		destroy: function() {
 			// TODO: better removal of elements
