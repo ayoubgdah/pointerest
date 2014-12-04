@@ -28,7 +28,6 @@
 
 	Pointerest.prototype = {
 		options: {
-			animationSpeed: 300,
 			radius: 10,
 			color: "#333",
 			lineHeight: 2,
@@ -38,7 +37,8 @@
 				right: 20,
 				bottom: 0,
 				left: 20
-			}
+			},
+			animationSpeed: 300
 		},
 		init: function() {
 			this.setupWrapper();
