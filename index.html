@@ -25,10 +25,11 @@
 			color: #333;
 		}
 		.container {
-			width: 1043px;
-			height: 955px;
+			width: 700px;
+			height: 641px;
 			margin: auto;
 			background: transparent url('dashboard.jpg') no-repeat;
+			background-size: contain;
 		}
 		.credits {
 			font-size: 12px;
@@ -46,18 +47,18 @@
 		}
 	</style>
 
-	<h1>Pointerest jQuery Plugin Demo <small><a href="https://github.com/ayoubgdah/pointerest#pointerest">Documentation</a></small></h1>
+	<h1>Pointerest Demo <small><a href="https://github.com/ayoubgdah/pointerest#pointerest">Documentation</a></small></h1>
 	<p>Hover the points to see the features</p>
 
 	<div class="container">
-		<span class="point" data-x="980" data-y="50"  data-color="#565962" data-content="Add a new dashboard page"></span>
-		<span class="point" data-x="280" data-y="200" data-color="#EE795B" data-content="Keep your house warm and your wallet full"></span>
-		<span class="point" data-x="550" data-y="200"  data-direction="top" data-color="#5397D9" data-content="A better understanding of your water consumption"></span>
-		<span class="point" data-x="820" data-y="200" data-color="#50C384" data-content="Save energy and money"></span>
-		<span class="point" data-x="750" data-y="340" data-color="#7FCB43" data-content="Shows you if you have saved or should do better"></span>
-		<span class="point" data-x="850" data-y="500" data-color="#E65D44" data-content="Hourly, daily, and monthly reporting data"></span>
-		<span class="point" data-x="50" data-y="620" data-color="#565962" data-content="Detailed comsuption for each room"></span>
-		<span class="point" data-x="900" data-y="900" data-color="#565962" data-content="Pay whenever you are ready"></span>
+		<span class="point" data-x="655" data-y="35"  data-color="#565962" data-content="Add a new dashboard page"></span>
+		<span class="point" data-x="200" data-y="135" data-color="#EE795B" data-content="Keep your house warm and your wallet full"></span>
+		<span class="point" data-x="385" data-y="135"  data-direction="top" data-color="#5397D9" data-content="A better understanding of your water consumption"></span>
+		<span class="point" data-x="565" data-y="135" data-color="#50C384" data-content="Save energy and money"></span>
+		<span class="point" data-x="500" data-y="230" data-color="#7FCB43" data-content="Shows you if you have saved or should do better"></span>
+		<span class="point" data-x="570" data-y="345" data-color="#E65D44" data-content="Hourly, daily, and monthly reporting data"></span>
+		<span class="point" data-x="45" data-y="425" data-color="#565962" data-content="Detailed comsuption for each room"></span>
+		<span class="point" data-x="605" data-y="605" data-color="#565962" data-content="Pay whenever you are ready"></span>
 	</div>
 
 	<p class="credits"><a href="https://dribbble.com/shots/1051180-Bills-Bills-Bills?list=searches&tag=dashboard&offset=5">Image credits</a></p>
@@ -73,6 +74,7 @@
 		// $(".container").Pointerest();
 			
 		$(".container").Pointerest({
+			radius: 6,
 			color: "#4AA3DF"
 		});
 
