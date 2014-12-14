@@ -69,7 +69,7 @@ var elements = [
 		x: 150,
 		y: 90,
 		color: "oliveGreen",
-		direction: "right"
+		direction: "right",
 		content: "This second point is here"
 	},
 ];

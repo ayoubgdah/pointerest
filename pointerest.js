@@ -1,25 +1,21 @@
 (function( $ ) {
 
-	var Pointerest = function(wrapper, arg1, arg2) {
-		this.wrapper = wrapper;
+	var Pointerest = function() {
+		this.wrapper = arguments[0];
 		this.wrapperWidth = 0;
 		this.wrapperHeight = 0;
 		this.pointNodes = [];
 		this.userNodes = [];
 
-		var arg1Type = Object.prototype.toString.call( arg1 ),
-			arg2Type = Object.prototype.toString.call( arg2 );
-
-		// first argument are options
-		if( arg1Type === "[object Object]" ) {
-			jQuery.extend(this.options, arg1);
-		}
 		// first argument are user nodes
-		else if( arg1Type === "[object Array]" ) {
-			this.userNodes = arg1;
+		if( arguments[1] && $.isArray(arguments[1]) ) {
+			this.userNodes = arguments[1];
 
 			// second option could be options
-			jQuery.extend(this.options, arg2);
+			jQuery.extend(this.options, arguments[2]);
+		}
+		else if( arguments[1] ) {
+			jQuery.extend(this.options, arguments[1]);
 		}
 
 		// initialize elements
@@ -298,18 +294,21 @@
 			}
 		},
 		destroy: function() {
-			// TODO: better removal of elements
-			this.wrapper.find(".point").remove();
-			this.wrapper.css({
-				'position': ''
-			});
-			this.wrapper.removeClass("pointerest");
+			// Reset points to original markup
+			this.wrapper.find(".point").removeAttr("style");
+
+			// Remove added markup
+			this.wrapper.find(".line, .content").remove();
+
+			// Reset wrapper
+			this.wrapper.removeClass("pointerest")
+						.css('position', '');
 		}
 	};
 
 	// Register plugin for jQuery
-	$.fn.Pointerest = function(arg1, arg2) {
-		return new Pointerest(this, arg1, arg2);
+	$.fn.Pointerest = function() {
+		return new Pointerest(this, arguments[0], arguments[1]);
 	};
 
 }( jQuery ));
