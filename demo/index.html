@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pointerest</title>
+	<!-- Include this file in your project -->
+	<link rel="stylesheet" href="../pointerest.css">
+	
+	<!-- Font for the demo only -->
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+	<!-- The styling here is only for the demo, use your own based on your image-->
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background: #D2D7D3;
+			font-family: Lato;
+			color: #333;
+		}
+		a {
+			color: #333;
+		}
+		.container {
+			width: 700px;
+			height: 641px;
+			margin: auto;
+			background: transparent url('dashboard.jpg') no-repeat;
+			background-size: contain;
+		}
+		.credits {
+			font-size: 12px;
+			text-align: center;
+			margin-top: 10px;
+		}
+		h1, p {
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		h1 small {
+			display: block;
+			font-size: .6em;
+			margin-top: 5px;
+		}
+	</style>
+
+	<h1>Pointerest Demo <small><a href="https://github.com/ayoubgdah/pointerest#pointerest">Documentation</a></small></h1>
+	<p>Hover the points to see the features</p>
+
+	<div class="container">
+		<span class="point" data-x="655" data-y="35"  data-color="#565962" data-content="Add a new dashboard page"></span>
+		<span class="point" data-x="200" data-y="135" data-color="#EE795B" data-content="Keep your house warm and your wallet full"></span>
+		<span class="point" data-x="385" data-y="135"  data-direction="top" data-color="#5397D9" data-content="A better understanding of your water consumption"></span>
+		<span class="point" data-x="565" data-y="135" data-color="#50C384" data-content="Save energy and money"></span>
+		<span class="point" data-x="500" data-y="230" data-color="#7FCB43" data-content="Shows you if you have saved or should do better"></span>
+		<span class="point" data-x="570" data-y="345" data-color="#E65D44" data-content="Hourly, daily, and monthly reporting data"></span>
+		<span class="point" data-x="45" data-y="425" data-color="#565962" data-content="Detailed comsuption for each room"></span>
+		<span class="point" data-x="605" data-y="605" data-color="#565962" data-content="Pay whenever you are ready"></span>
+	</div>
+
+	<p class="credits"><a href="https://dribbble.com/shots/1051180-Bills-Bills-Bills?list=searches&tag=dashboard&offset=5">Image credits</a></p>
+	
+	<!-- Load jQuery -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!-- Include the plugin script -->
+	<script src="../pointerest.js"></script>
+
+	<!-- Fire up the plugin -->
+	<script>
+		// If you don't need options use this instead
+		// $(".container").Pointerest();
+			
+		var options = {
+    color: "steelBlue",
+    radius: 5
+};
+var elements = [
+    {
+        x: 200,
+        y: 100,
+        content: "This is the content for the first point"
+    },
+    {
+        x: 150,
+        y: 90,
+        color: "oliveGreen",
+        direction: "right",
+        content: "This second point is here"
+    },
+];
+var test = $(".container").Pointerest(elements, options);
+
+		// Google Analytics
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-57334488-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>
